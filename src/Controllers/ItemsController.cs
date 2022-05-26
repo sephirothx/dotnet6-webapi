@@ -80,7 +80,7 @@ public class ItemsController : Controller
 
     [HttpDelete]
     [Route("{id}")]
-    public async Task<ActionResult> DeleteItem(Guid id)
+    public async Task<ActionResult> DeleteItemAsync(Guid id)
     {
         var item = await _itemsRepository.GetItemAsync(id);
 
