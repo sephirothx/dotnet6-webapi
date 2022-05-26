@@ -76,11 +76,10 @@ public class ItemsControllerTests
     public async Task CreateItemAsync_WithValidItem_ReturnsCreatedAtRouteResult()
     {
         // Arrange
-        var expectedItem = new CreateItemDto
-        {
-            Name = Guid.NewGuid().ToString(),
-            Price = _random.Next(1, 1000)
-        };
+        var expectedItem = new CreateItemDto(
+            Guid.NewGuid().ToString(),
+            Guid.NewGuid().ToString(),
+            _random.Next(1, 1000));
         var controller = new ItemsController(_mockItemRepository.Object);
 
         // Act
@@ -101,11 +100,10 @@ public class ItemsControllerTests
         _mockItemRepository.Setup(x => x.GetItemAsync(expectedItem.Id))
             .ReturnsAsync(expectedItem);
 
-        var itemDto = new UpdateItemDto
-        {
-            Name = Guid.NewGuid().ToString(),
-            Price = _random.Next(1, 1000)
-        };
+        var itemDto = new UpdateItemDto(
+            Guid.NewGuid().ToString(),
+            Guid.NewGuid().ToString(),
+            _random.Next(1, 1000));
 
         var controller = new ItemsController(_mockItemRepository.Object);
 
@@ -123,11 +121,10 @@ public class ItemsControllerTests
         _mockItemRepository.Setup(x => x.GetItemAsync(It.IsAny<Guid>()))
             .ReturnsAsync(null as Item);
 
-        var itemDto = new UpdateItemDto
-        {
-            Name = Guid.NewGuid().ToString(),
-            Price = _random.Next(1, 1000)
-        };
+        var itemDto = new UpdateItemDto(
+            Guid.NewGuid().ToString(),
+            Guid.NewGuid().ToString(),
+            _random.Next(1, 1000));
 
         var controller = new ItemsController(_mockItemRepository.Object);
 
