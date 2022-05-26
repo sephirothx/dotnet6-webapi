@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.Build.Traversal/3.0.3">
+    <ItemGroup>
+        <ProjectReference Include="**/*.csproj" />
+    </ItemGroup>
+    <Target Name="Build">
+        <MSBuild Projects="@(ProjectReference)" Targets="Build" />
+    </Target>
+</Project>
