@@ -19,9 +19,14 @@ public class ItemsController : Controller
     }
 
     [HttpGet]
-    public async Task<IEnumerable<ItemDto>> GetItemsAsync()
+    public async Task<IEnumerable<ItemDto>> GetItemsAsync(string? nameToMatch = null)
     {
         var items = (await _itemsRepository.GetItemsAsync()).Select(x => x.AsDto());
+
+        if (!string.IsNullOrWhiteSpace(nameToMatch))
+        {
+            items = items.Where(x => x.Name!.Contains(nameToMatch, StringComparison.OrdinalIgnoreCase));
+        }
 
         return items;
     }

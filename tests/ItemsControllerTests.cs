@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Catalog.Controllers;
 using Catalog.Dtos;
@@ -70,6 +71,32 @@ public class ItemsControllerTests
         result.Should().BeEquivalentTo(
             expectedItems,
             options => options.ComparingByMembers<Item>());
+    }
+
+    [Fact]
+    public async Task GetItemsAsync_WithMatchingItems_ReturnsMatchingItems()
+    {
+        // Arrange
+        var items = new[]
+        {
+            new Item { Id = Guid.NewGuid(), Name = "Pass 1" },
+            new Item { Id = Guid.NewGuid(), Name = "Fail 1" },
+            new Item { Id = Guid.NewGuid(), Name = "Pass 2" }
+        };
+
+        var nameToMatch = "Pass";
+
+        _mockItemRepository.Setup(x => x.GetItemsAsync())
+            .ReturnsAsync(items);
+
+        var controller = new ItemsController(_mockItemRepository.Object);
+
+        // Act
+        IEnumerable<ItemDto> result = await controller.GetItemsAsync(nameToMatch);
+
+        // Assert
+        result.Should().OnlyContain(
+            item => item.Name!.Contains(nameToMatch, StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]
